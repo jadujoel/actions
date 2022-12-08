@@ -31,13 +31,35 @@ jobs:
           git config user.name "GitHub Actions Bot"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
 
-      - name: BRANCHNAME
-        run: echo none BRANCH_NAME && echo dollar $BRANCH_NAME
-      - name: Branch name
-        run: echo running on branch ${GITHUB_REF##*/}
+      - name: Branch Name
+        run: |
+          echo $BRANCH_NAME
+          echo running on branch ${GITHUB_REF##*/}
 
-      - name: head ref
-        run: echo ${{ github.head_ref }}
+      - name: Set version
+        run: |
+          npm version prerelease --preid=${{ github.head_ref }}.${{ github.sha }}
+          git push --follow-tags
 
-      - name: sha
-        run: ${{ github.sha }}
+      # - name: Get package version
+      #   id: package-version
+      #   uses: martinbeentjes/npm-get-version-action@master
+      #   # The Action sets an output variable called current-version which can be used in a following step by using ${{ steps.package-version.outputs.current-version}}
+
+      # - name: Package info
+      #   run: echo package version ${{ steps.package-version.outputs.current-version }}
+
+      # - name: Build
+      #   run: npm run build
+
+      # # - name: Run tests
+      # #   run: npm run test
+
+      # - name: Publish
+      #   env:
+      #     NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      #   run: |
+      #     npm publish --workspace=packages/ecas-engine --tag ${{ github.head_ref }}.${{ github.sha }}
+      #     npm publish --workspace=packages/ecas-encoder --tag ${{ github.head_ref }}.${{ github.sha }}
+      #     npm publish --workspace=packages/ecas-webpack-plugin --tag ${{ github.head_ref }}.${{ github.sha }}
+      #     npm publish --workspace=packages/ecas-docs --tag ${{ github.head_ref }}.${{ github.sha }}
