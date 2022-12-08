@@ -16,5 +16,8 @@
   "bugs": {
     "url": "https://github.com/jadujoel/actions/issues"
   },
-  "homepage": "https://github.com/jadujoel/actions#readme"
+  "homepage": "https://github.com/jadujoel/actions#readme",
+  "devDependencies": {
+    "@netent-tech/ecas-webpack-plugin": "2.0.38-ECAS-1573-fix-encoder-solve-ecas-webpack-plugin-failing-to-run-in-template-slot.0"
+  }
 }
