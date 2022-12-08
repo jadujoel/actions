@@ -38,28 +38,17 @@ jobs:
 
       - name: Set version
         run: |
-          npm version prerelease --preid=${{ github.head_ref }}.${{ github.sha }}
-          git push --follow-tags
+          npm version prerelease --preid=$BRANCH_NAME
 
-      # - name: Get package version
-      #   id: package-version
-      #   uses: martinbeentjes/npm-get-version-action@master
-      #   # The Action sets an output variable called current-version which can be used in a following step by using ${{ steps.package-version.outputs.current-version}}
+      - name: Get package version
+        id: package-version
+        uses: martinbeentjes/npm-get-version-action@master
 
-      # - name: Package info
-      #   run: echo package version ${{ steps.package-version.outputs.current-version }}
+      - name: Package info
+        run: echo package version ${{ steps.package-version.outputs.current-version }}
 
-      # - name: Build
-      #   run: npm run build
-
-      # # - name: Run tests
-      # #   run: npm run test
-
-      # - name: Publish
-      #   env:
-      #     NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      #   run: |
-      #     npm publish --workspace=packages/ecas-engine --tag ${{ github.head_ref }}.${{ github.sha }}
-      #     npm publish --workspace=packages/ecas-encoder --tag ${{ github.head_ref }}.${{ github.sha }}
-      #     npm publish --workspace=packages/ecas-webpack-plugin --tag ${{ github.head_ref }}.${{ github.sha }}
-      #     npm publish --workspace=packages/ecas-docs --tag ${{ github.head_ref }}.${{ github.sha }}
+      - name: Publish
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          npm publish --tag $BRANCH_NAME
