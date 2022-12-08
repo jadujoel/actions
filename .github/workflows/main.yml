@@ -36,7 +36,9 @@ jobs:
         run: |
           echo $BRANCH_NAME
           echo running on branch ${GITHUB_REF##*/}
-          echo sha: $GITHUB_SHA_SHORT
+          echo sha_long: $GITHUB_SHA
+          echo sha_short: $GITHUB_SHA_SHORT
+          echo cut: $(echo $GITHUB_SHA | cut -c1-7)
 
       # - name: Set version
       #   run: |
