@@ -1,6 +1,7 @@
 name: publish-branch
 on:
   workflow_dispatch:
+  push:
 jobs:
   publish:
     runs-on: ${{ matrix.os }}
@@ -11,6 +12,7 @@ jobs:
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       ACTION_GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      BRANCH_NAME: ${{ github.head_ref || github.ref_name }}
 
     steps:
       - name: Setup Node
@@ -28,6 +30,11 @@ jobs:
         run: |
           git config user.name "GitHub Actions Bot"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+      - name: BRANCHNAME
+        run: echo none BRANCH_NAME && echo dollar $BRANCH_NAME
+      - name: Branch name
+        run: echo running on branch ${GITHUB_REF##*/}
 
       - name: head ref
         run: echo ${{ github.head_ref }}
